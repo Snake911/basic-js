@@ -15,10 +15,17 @@ function getSeason(date) {
   if(!date) {
     return "Unable to determine the time of year!";
   }
-  if(!(date instanceof Date)) {
+  try {
+    date.toDateString();
+    if(!(date instanceof Date)) {
+      return false;
+    }
+  } catch (error) {
     throw new Error("Invalid date!");
   }
-  return 12;
+  const seasons = Array(11).fill('winter', 0, 2).fill('spring', 2, 5).fill('summer', 5, 8).fill('autumn', 8, 11);
+  seasons.push('winter');
+  return seasons[date.getMonth()];
 }
 
 module.exports = {
