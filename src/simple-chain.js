@@ -13,14 +13,13 @@ const { NotImplementedError } = require('../extensions/index.js');
     this.chain.push(`( ${value} )`);
     return this;
   },
-  removeLink(position) {
-    try {
-      const number = position - 1;
-      if(number > 0 && number < this.chain.length) {
-        this.chain[number] = '';
-        return this;
-      }
-    } catch (error) {
+  removeLink(position) {    
+    const number = position - 1;
+    if(number >= 0 && number < this.chain.length) {
+      this.chain.splice(number, 1);
+      return this;      
+    } else {
+      this.chain = [];
       throw new Error('You can\'t remove incorrect link!');
     }
   },
@@ -29,7 +28,9 @@ const { NotImplementedError } = require('../extensions/index.js');
     return this;
   },
   finishChain() {
-    return this.chain.filter(item => item).join('~~');
+    const result = this.chain.join('~~');
+    this.chain = [];
+    return result;
   }
 };
 
